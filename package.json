@@ -7,10 +7,12 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "@react-native-firebase/app": "^12.4.0",
-    "@react-native-firebase/firestore": "^12.4.0",
+    "@react-native-community/checkbox": "^0.5.8",
+    "@react-native-firebase/app": "^12.5.0",
+    "@react-native-firebase/auth": "^12.5.0",
+    "@react-native-firebase/firestore": "^12.5.0",
     "@react-navigation/native": "^6.0.2",
-    "@react-navigation/stack": "^6.0.4",
+    "@react-navigation/stack": "^6.0.6",
     "expo": "~42.0.1",
     "expo-splash-screen": "~0.11.2",
     "expo-status-bar": "~1.0.4",
@@ -23,10 +25,13 @@
     "react-native-fill-up-button": "^1.0.3",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-reanimated": "~2.2.0",
+    "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
+    "react-native-scroll-view": "^0.1.0",
     "react-native-unimodules": "~0.14.5",
     "react-native-vector-icons": "^8.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-navigation": "^4.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
