@@ -1,13 +1,24 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, View, Text, Button} from 'react';
 import { AuthContext } from './AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 
 // Patient
 
 import MenuPatient from '../Patient/MenuPatient';
+
+
+
+
+// Volunteer
+
 import MenuVolunteer from '../Volunteer/MenuVolunteer';
+import FindPatient from '../Volunteer/FindPatient';
+import DetailPatient from '../Volunteer/DetailPatient';
+import CasetoTakeCare from '../Volunteer/CaseToTakeCare'
+
+
 
 const Stack = createStackNavigator();
 var teacher = null;
@@ -21,6 +32,8 @@ const loopdata = (user) => {
     }
   });
 };
+
+
 
 export default function checkRoleScreen() {
   const { user } = useContext(AuthContext);
@@ -65,6 +78,10 @@ export default function checkRoleScreen() {
       <Stack.Navigator initialRouteName="HomeTeacher">
 
       <Stack.Screen name="Menu" component={MenuVolunteer} />
+      <Stack.Screen name="Find Patient" component={FindPatient} />
+      <Stack.Screen name="DetailPatient" component={DetailPatient} />
+      <Stack.Screen name="Your Case" component={CasetoTakeCare} />
+
 
 
       </Stack.Navigator>

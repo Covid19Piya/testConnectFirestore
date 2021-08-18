@@ -4,43 +4,43 @@ import {View, StyleSheet, Text, Alert, TouchableOpacity} from 'react-native';
 import {FilledButton} from '../components/FilledButton';
 import {AuthContext} from '../navigaiton/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
-console.disableYellowBox = true;
+
 export default function homeScreen({navigation}) {
   const {user, logout} = useContext(AuthContext);
 
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}> Welcome Teacher </Text>
+      <Text style={styles.welcome}> Welcome Volunteer </Text>
       <Text style={styles.head}>"{user.email}"</Text>
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('MakeSubject')}>
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Find Patient',{user: user})}>
         <Text style={styles.loginButtonText}>
-        Create Exam
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('studentScore')}>
-        <Text style={styles.loginButtonText}>
-        Student Score
+        Looking for patient
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Name Exam Chat')}>
         <Text style={styles.loginButtonText}>
-        Exam Chat
+        Patient Case
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('MakeSubject')}>
+        <Text style={styles.loginButtonText}>
+        Post
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('homeWorkMain')}>
         <Text style={styles.loginButtonText}>
-        Homework Create
+        Chat
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('mainShowAns')}>
         <Text style={styles.loginButtonText}>
-        Homework Answer
+        News
         </Text>
       </TouchableOpacity>
 
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   
   loginButton: {
     marginVertical: 10,
-    backgroundColor: '#00CABA',
+    backgroundColor: '#DFF17C',
     width: 320,
     height: 60,
     borderRadius: 10,

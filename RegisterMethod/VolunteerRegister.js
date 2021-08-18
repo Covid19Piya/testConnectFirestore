@@ -7,11 +7,9 @@ import CheckBox from '@react-native-community/checkbox';
 import firestore from '@react-native-firebase/firestore';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import {FilledButton} from '../components/FilledButton';
-import {Heading} from '../components/Heading';
-
 
 export default function loginScreen({navigation}) {
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [name, setName] = useState();
@@ -21,10 +19,10 @@ export default function loginScreen({navigation}) {
 
   const {register} = useContext(AuthContext);
 
-  const usersCollectionRef = firestore().collection('Users');
+  const usersCollectionRef = firestore().collection('Users').doc(email);
 
   const addusers = () => {
-    usersCollectionRef.add({
+    usersCollectionRef.set({
       Name: name,
       Lastname: lastname,
       Email: email,
@@ -74,8 +72,7 @@ export default function loginScreen({navigation}) {
       />
 
       <Text style={styles.text}>
-        Teacher (Check only you are teacher. If you're student, Please don't
-        check this box.)
+        Volunteer (Check only you are Volunteer.)
       </Text>
 
 
