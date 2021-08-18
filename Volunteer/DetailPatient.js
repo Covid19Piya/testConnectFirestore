@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { useContext, Component } from 'react'
-import { View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native';
-import { FilledButton } from '../components/FilledButton';
-import { AuthContext } from '../navigaiton/AuthProvider';
+import { Component } from 'react'
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import { Input, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class ShowData extends Component {
   constructor() {
@@ -88,6 +87,8 @@ class ShowData extends Component {
     this.storeData = firestore().collection("Users").doc({ user }.user.email).collection("YourCase");
 
     return (
+      <ScrollView >
+
         <View>
           <Text> ผู้ป่วยที่ต้องการความช่วยเหลือ </Text>
           {
@@ -124,6 +125,8 @@ class ShowData extends Component {
             })
           }
         </View>
+        </ScrollView >
+
     )
   }
 

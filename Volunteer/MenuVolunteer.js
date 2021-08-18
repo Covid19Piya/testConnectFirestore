@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {useContext, Component} from 'react';
-import {View, StyleSheet, Text, Alert, TouchableOpacity} from 'react-native';
-import {FilledButton} from '../components/FilledButton';
-import {AuthContext} from '../navigaiton/AuthProvider';
+import { useContext, Component } from 'react';
+import { View, StyleSheet, Text, Alert, TouchableOpacity } from 'react-native';
+import { FilledButton } from '../components/FilledButton';
+import { AuthContext } from '../navigaiton/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 
-export default function homeScreen({navigation}) {
-  const {user, logout} = useContext(AuthContext);
+export default function homeScreen({ navigation }) {
+  const { user, logout } = useContext(AuthContext);
 
 
   return (
@@ -14,39 +14,34 @@ export default function homeScreen({navigation}) {
       <Text style={styles.welcome}> Welcome Volunteer </Text>
       <Text style={styles.head}>"{user.email}"</Text>
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Find Patient',{user: user})}>
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Find Patient', { user: user })}>
         <Text style={styles.loginButtonText}>
-        Looking for patient
+          Looking for patient
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Name Exam Chat')}>
+
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Your Case', {user: user })}>
         <Text style={styles.loginButtonText}>
-        Patient Case
+          Patient Case
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('MakeSubject')}>
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Post Donate')}>
         <Text style={styles.loginButtonText}>
-        Post
+          Post for donate
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('homeWorkMain')}>
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('News Donate')}>
         <Text style={styles.loginButtonText}>
-        Chat
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('mainShowAns')}>
-        <Text style={styles.loginButtonText}>
-        News
+          News
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
         <Text style={styles.loginButtonText}>
-        Logout
+          Logout
         </Text>
       </TouchableOpacity>
     </View>
@@ -62,15 +57,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginBottom: 15,
   },
-  welcome:{
+  welcome: {
     fontWeight: 'bold',
-    fontSize:25,
+    fontSize: 25,
     color: '#00B3B2',
-    
+
   },
-  head:{
+  head: {
     fontWeight: 'bold',
-    fontSize:20,
+    fontSize: 20,
     color: '#00B3B2',
     marginBottom: 20,
   },
@@ -79,10 +74,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#F0FFFF',
     fontWeight: 'bold',
-    fontSize:20,
+    fontSize: 20,
     padding: 15
   },
-  
+
   loginButton: {
     marginVertical: 10,
     backgroundColor: '#DFF17C',
@@ -104,7 +99,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 5,
     shadowRadius: 5,
     elevation: 5
-    },
+  },
 
   container: {
     flex: 1,
@@ -112,7 +107,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    
-    
+
+
   },
 });

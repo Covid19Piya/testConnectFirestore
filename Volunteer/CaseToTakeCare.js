@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { useContext, Component } from 'react'
-import { View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native';
-import { FilledButton } from '../components/FilledButton';
-import { AuthContext } from '../navigaiton/AuthProvider';
+import { Component } from 'react'
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import { Input, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class ShowData extends Component {
   constructor() {
@@ -51,7 +50,7 @@ class ShowData extends Component {
     this.fireStoreData = firestore().collection("Users").doc({ user }.user.email).collection("YourCase");
 
     return (
-
+      <ScrollView>
         <View>
           <Text> เคสของคุณ </Text>
           {
@@ -76,11 +75,18 @@ class ShowData extends Component {
                     </TouchableOpacity>
                   </ListItem.Content>
                 </ListItem>
-
               );
             })
           }
+          <TouchableOpacity style={styles.loginButton} onPress={() => {
+            this.props.navigation.navigate('Menu Volunteer');
+          }}>
+            <Text style={styles.loginButtonText}>
+              กลับสู่เมนู
+            </Text>
+          </TouchableOpacity>
         </View>
+      </ScrollView>
 
     )
   }

@@ -17,6 +17,9 @@ import MenuVolunteer from '../Volunteer/MenuVolunteer';
 import FindPatient from '../Volunteer/FindPatient';
 import DetailPatient from '../Volunteer/DetailPatient';
 import CasetoTakeCare from '../Volunteer/CaseToTakeCare'
+import PostDonate from '../Volunteer/PostDonate'
+import NewsDonate from '../Volunteer/NewsDonate'
+
 
 
 
@@ -77,10 +80,12 @@ export default function checkRoleScreen() {
     <>
       <Stack.Navigator initialRouteName="HomeTeacher">
 
-      <Stack.Screen name="Menu" component={MenuVolunteer} />
+      <Stack.Screen name="Menu Volunteer" component={MenuVolunteer} />
       <Stack.Screen name="Find Patient" component={FindPatient} />
       <Stack.Screen name="DetailPatient" component={DetailPatient} />
       <Stack.Screen name="Your Case" component={CasetoTakeCare} />
+      <Stack.Screen name="Post Donate" component={PostDonate} />
+      <Stack.Screen name="News Donate" component={NewsDonate} />
 
 
 
