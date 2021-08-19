@@ -61,13 +61,10 @@ class ShowData extends Component {
                   bottomDivider>
                   <ListItem.Content>
                     <ListItem.Title>ชื่อ : {item.FirstName} นามสกุล : {item.LastName} </ListItem.Title>
-                    <ListItem.Title>อายุ : {item.Age}</ListItem.Title>
                     <ListItem.Title>ความช่วยเหลือที่ต้องการ : {item.Help}</ListItem.Title>
-                    <ListItem.Title>ที่อยู่ : {item.Address}</ListItem.Title>
                     <ListItem.Title>หมายเลขโทรศัพท์ : {item.PhoneNumber}</ListItem.Title>
-
                     <TouchableOpacity style={styles.loginButton} onPress={() => {
-                      this.props.navigation.navigate('Your Case', { text: { text }.text, user: user });
+                      this.props.navigation.navigate('DeepDetail', { patientName: item.FirstName, user: user });
                     }}>
                       <Text style={styles.loginButtonText}>
                         ตรวจสอบเคส

@@ -19,6 +19,7 @@ import DetailPatient from '../Volunteer/DetailPatient';
 import CasetoTakeCare from '../Volunteer/CaseToTakeCare'
 import PostDonate from '../Volunteer/PostDonate'
 import NewsDonate from '../Volunteer/NewsDonate'
+import DeepDetail from '../Volunteer/DeepDetail'
 
 
 
@@ -86,7 +87,7 @@ export default function checkRoleScreen() {
       <Stack.Screen name="Your Case" component={CasetoTakeCare} />
       <Stack.Screen name="Post Donate" component={PostDonate} />
       <Stack.Screen name="News Donate" component={NewsDonate} />
-
+      <Stack.Screen name="DeepDetail" component={DeepDetail} />
 
 
       </Stack.Navigator>
