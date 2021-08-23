@@ -11,25 +11,25 @@ export default function homeScreenStudent({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}> Welcome Student </Text>
+      <Text style={styles.welcome}> Welcome Patient </Text>
       <Text style={styles.head}>"{user.email}"</Text>
 
     
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Name Subject')}>
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('PatientForm', { user: user })}>
         <Text style={styles.loginButtonText}>
-        TakeTest
+        Need Help
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('PatientStatus')}>
+        <Text style={styles.loginButtonText}>
+        Your Case
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Chat Student')}>
         <Text style={styles.loginButtonText}>
         Chat
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('studentHwMain')}>
-        <Text style={styles.loginButtonText}>
-        Homework
         </Text>
       </TouchableOpacity>
       
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     marginVertical: 10,
-    backgroundColor: '#00CABA',
+    backgroundColor: '#DFF17C',
     width: 320,
     height: 60,
     borderRadius: 10,

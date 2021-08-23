@@ -19,16 +19,22 @@ export default function loginScreen({navigation}) {
 
   const {register} = useContext(AuthContext);
 
-  const usersCollectionRef = firestore().collection('Users').doc(email);
+  const usersCollectionRef = firestore().collection('Volunteer').doc(email);
+  const dataInUsers = firestore().collection('Users').doc(email);
 
   const addusers = () => {
     usersCollectionRef.set({
       Name: name,
-      Lastname: lastname,
       Email: email,
       Teacher: teacher,
       Score: 0,
     });
+    dataInUsers.set({
+      Name: name,
+      Email: email,
+      Teacher: teacher,
+      Score: 0,
+    })
   };
 
   return (
@@ -40,13 +46,6 @@ export default function loginScreen({navigation}) {
         labelValue={name}
         onChangeText={(userName) => setName(userName)}
         placeholder="Name"
-        autoCorrect={false}
-      />
-      <Input
-        style={styles.input}
-        labelValue={lastname}
-        onChangeText={(userLastname) => setLastname(userLastname)}
-        placeholder="Lastname"
         autoCorrect={false}
       />
       <Input

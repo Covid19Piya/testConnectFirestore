@@ -7,6 +7,9 @@ import firestore from '@react-native-firebase/firestore';
 // Patient
 
 import MenuPatient from '../Patient/MenuPatient';
+import PatientForm from '../Patient/NeedHelpForm';
+import PatientStatus from '../Patient/PatientStatus';
+import PatientStatusIn from '../Patient/PatientStatusIn';
 
 
 
@@ -20,6 +23,7 @@ import CasetoTakeCare from '../Volunteer/CaseToTakeCare'
 import PostDonate from '../Volunteer/PostDonate'
 import NewsDonate from '../Volunteer/NewsDonate'
 import DeepDetail from '../Volunteer/DeepDetail'
+
 
 
 
@@ -100,6 +104,9 @@ export default function checkRoleScreen() {
 
         <Stack.Screen name="Menu" component={MenuPatient} />
 
+        <Stack.Screen name="PatientForm" component={PatientForm} />
+        <Stack.Screen name="PatientStatus" component={PatientStatus} />
+        <Stack.Screen name="PatientStatusIn" component={PatientStatusIn} />
 
 
       </Stack.Navigator>

@@ -196,7 +196,6 @@ class Hw extends React.Component {
                       isLoading: false,
                     });
                   });
-                this.props.navigation.navigate('Menu Volunteer');
               }}>
               <Text style={styles.textButton}>Done</Text>
             </TouchableOpacity>
@@ -214,7 +213,7 @@ class Hw extends React.Component {
     }
 
     // get col name form firestore //
-    nameHw = "123";
+    nameHw = "ee";
     // put data
     this.usersCollectionRef = firestore()
       .collection('subject_Code')

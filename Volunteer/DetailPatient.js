@@ -10,12 +10,11 @@ class ShowData extends Component {
     super();
     this.state = {
       userArr: [],
-      FirstName: '',
-      LastName: '',
+      Name: '',
       Age: '',
       Help: '',
       Address: '',
-      PhoneNumber: ''
+      PhoneNumber: '',
     }
 
   }
@@ -33,16 +32,17 @@ class ShowData extends Component {
   getCollection = (querySnapshot) => {
     const userArr = [];
     querySnapshot.forEach((res) => {
-      const { FirstName, Help, Address, Age, LastName, PhoneNumber } = res.data();
+      const { Name, Help, Address, Age, PhoneNumber,Status, Request } = res.data();
       userArr.push({
         key: res.id,
         res,
-        FirstName,
-        LastName,
+        Name,
         Age,
         Help,
         Address,
-        PhoneNumber
+        PhoneNumber,
+        Status,
+        Request
       })
     })
     this.setState({
@@ -50,20 +50,34 @@ class ShowData extends Component {
     })
   }
 
+  sendRequest(name, email){
+    firestore().collection("Patient").doc(name).collection("Case")
+    .get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+        
+                doc.ref.update({
+                    Request: email
+                });
+            
+        });
+    })
+}
+
+
   storeUser() {
     this.storeData
       .add({
-        FirstName: this.state.FirstName,
-        LastName: this.state.LastName,
+        Name: this.state.Name,
         Age: this.state.Age,
         Help: this.state.Help,
         Address: this.state.Address,
         PhoneNumber: this.state.PhoneNumber,
+        Status: "waiting",
+        Confirm: "No"
       })
       .then((res) => {
         this.setState({
-          FirstName: '',
-          LastName: '',
+          Name: '',
           Age: '',
           Help: '',
           Address: '',
@@ -81,10 +95,11 @@ class ShowData extends Component {
   render() {
 
     const { text, user } = this.props.route.params
+    let checkDuplicateCase = false;
+    let checkDuplicateCaseText = "ยืนยันช่วยเหลือ";
+    this.fireStoreData = firestore().collection("Patient").doc({ text }.text).collection("Case");
 
-    this.fireStoreData = firestore().collection("Cases").doc({ text }.text).collection("Detail");
-
-    this.storeData = firestore().collection("Users").doc({ user }.user.email).collection("YourCase");
+    this.storeData = firestore().collection("Volunteer").doc({ user }.user.email).collection("Case");
 
     return (
       <ScrollView >
@@ -94,29 +109,34 @@ class ShowData extends Component {
           {
             this.state.userArr.map((item, i) => {
 
-              this.state.FirstName = item.FirstName
-              this.state.LastName = item.LastName
+              this.state.Name = item.Name
               this.state.Age = item.Age
               this.state.Help = item.Help
               this.state.Address = item.Address
               this.state.PhoneNumber = item.PhoneNumber
+
+              if(item.Request == { user }.user.email){
+                checkDuplicateCaseText = "คุณมีเคสนี้เเล้ว"
+                checkDuplicateCase = true
+              }
 
               return (
                 <ListItem
                   key={i}
                   bottomDivider>
                   <ListItem.Content>
-                    <ListItem.Title>ชื่อ : {item.FirstName} นามสกุล : {item.LastName}</ListItem.Title>
+                    <ListItem.Title>ชื่อ : {item.Name}</ListItem.Title>
                     <ListItem.Title>ความช่วยเหลือที่ต้องการ : {item.Help}</ListItem.Title>
-                    <ListItem.Title>ที่อยู่ : {item.Address}</ListItem.Title>
+                    <ListItem.Title>สถานะการช่วยเหลือ : {item.Status}</ListItem.Title>
 
-                    <TouchableOpacity style={styles.loginButton} onPress={() => {
+                    <TouchableOpacity disabled={checkDuplicateCase} style={styles.loginButton} onPress={() => {
                       this.props.navigation.navigate('Your Case', { text: { text }.text, user: user });
-                      this.storeUser()
+                      this.storeUser();
+                      this.sendRequest(item.Name, { user }.user.email);
                     }
                     }>
                       <Text style={styles.loginButtonText}>
-                        ยืนยันช่วยเหลือ
+                      {checkDuplicateCaseText}
                       </Text>
                     </TouchableOpacity>
                   </ListItem.Content>

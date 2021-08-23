@@ -10,7 +10,7 @@ class ShowData extends Component {
     constructor() {
         super();
 
-        this.fireStoreData = firestore().collection("Cases").doc("Name").collection("Name");
+        this.fireStoreData = firestore().collection("Patient");
         this.state = {
             userArr: []
         }
@@ -26,12 +26,14 @@ class ShowData extends Component {
     getCollection = (querySnapshot) => {
         const userArr = [];
         querySnapshot.forEach((res) => {
-            const { Name, Help } = res.data();
+            const { Name, Help, Email, Confirm } = res.data();
             userArr.push({
                 key: res.id,
                 res,
                 Name,
-                Help
+                Help,
+                Email,
+                Confirm
             })
         })
         this.setState({
@@ -41,12 +43,15 @@ class ShowData extends Component {
     render() {
         const {user} = this.props.route.params;
         console.log({user})
+   
         return (
             <View>
                 <Text> ผู้ป่วยที่ต้องการความช่วยเหลือ </Text>
                 {
                     this.state.userArr.map((item, i) => {
+                      
                         return (
+                            
                             <ListItem
                                 key={i}
                                 bottomDivider>

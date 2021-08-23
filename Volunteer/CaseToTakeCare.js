@@ -27,16 +27,16 @@ class ShowData extends Component {
   getCollection = (querySnapshot) => {
     const userArr = [];
     querySnapshot.forEach((res) => {
-      const { FirstName, LastName, Age, Help, Address, PhoneNumber } = res.data();
+      const { Name, Age, Help, Address, PhoneNumber, Confirm } = res.data();
       userArr.push({
         key: res.id,
         res,
-        FirstName,
-        LastName,
+        Name,
         Age,
         Help,
         Address,
-        PhoneNumber
+        PhoneNumber,
+        Confirm
       })
     })
     this.setState({
@@ -46,8 +46,9 @@ class ShowData extends Component {
   render() {
 
     const { text, user } = this.props.route.params
-
-    this.fireStoreData = firestore().collection("Users").doc({ user }.user.email).collection("YourCase");
+    let patientConfirm = true
+    let patientConfirmTxt = "รอการอนุมัติ"
+    this.fireStoreData = firestore().collection("Volunteer").doc({ user }.user.email).collection("Case");
 
     return (
       <ScrollView>
@@ -55,19 +56,25 @@ class ShowData extends Component {
           <Text> เคสของคุณ </Text>
           {
             this.state.userArr.map((item, i) => {
+              console.log(item.Confirm)
+              if (item.Confirm == "Yes") {
+                patientConfirm = false
+                patientConfirmTxt = "ตรวจสอบเคส"
+              }
               return (
                 <ListItem
                   key={i}
                   bottomDivider>
                   <ListItem.Content>
-                    <ListItem.Title>ชื่อ : {item.FirstName} นามสกุล : {item.LastName} </ListItem.Title>
+                    <ListItem.Title>ชื่อ : {item.Name}  </ListItem.Title>
                     <ListItem.Title>ความช่วยเหลือที่ต้องการ : {item.Help}</ListItem.Title>
-                    <ListItem.Title>หมายเลขโทรศัพท์ : {item.PhoneNumber}</ListItem.Title>
-                    <TouchableOpacity style={styles.loginButton} onPress={() => {
-                      this.props.navigation.navigate('DeepDetail', { patientName: item.FirstName, user: user });
+                    <ListItem.Title>อนุญาติให้เข้าถึง : {item.Confirm}</ListItem.Title>
+
+                    <TouchableOpacity disabled={patientConfirm} style={styles.loginButton} onPress={() => {
+                      this.props.navigation.navigate('DeepDetail', { text: item.Name, user: user });
                     }}>
                       <Text style={styles.loginButtonText}>
-                        ตรวจสอบเคส
+                        {patientConfirmTxt}
                       </Text>
                     </TouchableOpacity>
                   </ListItem.Content>

@@ -3,11 +3,13 @@ import {useState, useContext} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Input} from '../components/Input';
 import {AuthContext} from '../navigaiton/AuthProvider';
+import CheckBox from '@react-native-community/checkbox';
 import firestore from '@react-native-firebase/firestore';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default function loginScreen({navigation}) {
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [name, setName] = useState();
@@ -17,16 +19,22 @@ export default function loginScreen({navigation}) {
 
   const {register} = useContext(AuthContext);
 
-  const usersCollectionRef = firestore().collection('Users');
+  const usersCollectionRef = firestore().collection('Patient').doc(name);
+  const dataInUsers = firestore().collection('Users').doc(name);
 
   const addusers = () => {
-    usersCollectionRef.add({
+    usersCollectionRef.set({
       Name: name,
-      Lastname: lastname,
       Email: email,
       Teacher: teacher,
       Score: 0,
-    });
+    })
+    dataInUsers.set({
+      Name: name,
+      Email: email,
+      Teacher: teacher,
+      Score: 0,
+    })
   };
 
   return (
@@ -38,13 +46,6 @@ export default function loginScreen({navigation}) {
         labelValue={name}
         onChangeText={(userName) => setName(userName)}
         placeholder="Name"
-        autoCorrect={false}
-      />
-      <Input
-        style={styles.input}
-        labelValue={lastname}
-        onChangeText={(userLastname) => setLastname(userLastname)}
-        placeholder="Lastname"
         autoCorrect={false}
       />
       <Input
@@ -62,6 +63,9 @@ export default function loginScreen({navigation}) {
         placeholderText="Password"
         secureTextEntry={true}
       />
+
+
+
 
       <TouchableOpacity style={styles.loginButton} onPress={() => {
           register(email, password, name, lastname);

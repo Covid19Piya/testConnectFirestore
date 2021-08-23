@@ -33,12 +33,11 @@ class ShowData extends Component {
     getCollection = (querySnapshot) => {
         const userArr = [];
         querySnapshot.forEach((res) => {
-            const { FirstName, LastName, Age, Help, Address, PhoneNumber, Status } = res.data();
+            const { Name, Age, Help, Address, PhoneNumber, Status } = res.data();
             userArr.push({
                 key: res.id,
                 res,
-                FirstName,
-                LastName,
+                Name,
                 Age,
                 Help,
                 Address,
@@ -52,11 +51,23 @@ class ShowData extends Component {
     }
 
     updateData(name, status, user) {
-        this.fireStoreData1 = firestore().collection("Users").doc({ user }.user.email).collection("YourCase")
+        firestore().collection("Volunteer").doc({ user }.user.email).collection("Case")
             .get().then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
                     console.log("In fn" + name, status);
-                    if (doc.data().FirstName == name) {
+                    if (doc.data().Name == name) {
+                        doc.ref.update({
+                            Status: status
+                        });
+                    }
+                });
+            });
+
+        firestore().collection('Patient').doc(name).collection("Case")
+            .get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    console.log("In fn" + name, status);
+                    if (doc.data().Name == name) {
                         doc.ref.update({
                             Status: status
                         });
@@ -67,59 +78,34 @@ class ShowData extends Component {
 
     render() {
 
-        const { patientName, user } = this.props.route.params
-        console.log(patientName)
-        this.fireStoreData = firestore().collection("Users").doc({ user }.user.email).collection("YourCase");
+        const { text, user } = this.props.route.params
+        console.log(text)
+        this.fireStoreData = firestore().collection("Volunteer").doc({ user }.user.email).collection("Case");
 
         return (
             <ScrollView>
                 <View>
-                    <Text> เคสของคุณ </Text>                                 
+                   
                     {
                         this.state.userArr.map((item, i) => {
-                            if (patientName == item.FirstName)
-                            
+                            if (item.Name == text)
                                 return (
-                                    
                                     <ListItem
                                         key={i}
                                         bottomDivider>
-                                            
-                                        <ListItem.Content>
-                                        
-                                        <TouchableOpacity style={styles.loginButton} onPress={() => {
-                                                this.updateData(item.FirstName, this.state.user, user)
 
-                                            }}>
-                                                <Text style={styles.loginButtonText}>
-                                                    อัพเดทสถานะ
-                                                </Text>
-                                            </TouchableOpacity>
-                                         
-                                            <ListItem.Title>ชื่อ : {item.FirstName} นามสกุล : {item.LastName} </ListItem.Title>
+                                        <ListItem.Content>
+                                        <Text> รายละเอียดผู้ป่วย </Text>
+                                            <ListItem.Title>ชื่อ : {item.Name}  </ListItem.Title>
                                             <ListItem.Title>อายุ : {item.Age}</ListItem.Title>
                                             <ListItem.Title>ที่อยู่ : {item.Address}</ListItem.Title>
                                             <ListItem.Title>หมายเลขโทรศัพท์ : {item.PhoneNumber}</ListItem.Title>
                                             <ListItem.Title>ความช่วยเหลือที่ต้องการ : {item.Help}</ListItem.Title>
                                             <ListItem.Title>สถานะ : {item.Status}</ListItem.Title>
-
-                                  
-                                            <TouchableOpacity style={styles.loginButton} onPress={() => {
-                                                this.props.navigation.navigate('DeepDetail', { text: { text }.text, user: user });
-                                            }}>
-                                                <Text style={styles.loginButtonText}>
-                                                    พูดคุย
-                                                </Text>
-                                            </TouchableOpacity>
-                                            
                                         </ListItem.Content>
-                                        
                                     </ListItem>
-                                    
                                 );
-                                
                         })
-                        
                     }
                     <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
                         <Picker.Item label="รอ" value="Waiting" />
@@ -127,19 +113,30 @@ class ShowData extends Component {
                         <Picker.Item label="เสร็จสิ้น" value="Finish" />
                     </Picker>
                     <TouchableOpacity style={styles.loginButton} onPress={() => {
+                        this.updateData(text, this.state.user, user)
+                    }}>
+                        <Text style={styles.loginButtonText}>
+                            อัพเดทสถานะ
+                        </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.loginButton} onPress={() => {
+                        this.props.navigation.navigate('DeepDetail', { text: { text }.text, user: user });
+                    }}>
+                        <Text style={styles.loginButtonText}>
+                            พูดคุย
+                        </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.loginButton} onPress={() => {
                         this.props.navigation.navigate('Menu Volunteer');
                     }}>
                         <Text style={styles.loginButtonText}>
                             กลับสู่เมนู
                         </Text>
                     </TouchableOpacity>
-
-
-
-
                 </View>
             </ScrollView>
-
         )
     }
 
