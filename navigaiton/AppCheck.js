@@ -25,7 +25,9 @@ import NewsDonate from '../Volunteer/NewsDonate'
 import DeepDetail from '../Volunteer/DeepDetail'
 
 
+// PhoneAuth
 
+import MainPhoneAuth from '../PhoneAuth/Main'
 
 
 const Stack = createStackNavigator();
@@ -65,7 +67,7 @@ export default function checkRoleScreen() {
               });
             });
           });
-
+          
         setEmail(list);
         if (loading) {
           setLoading(false);
@@ -92,6 +94,8 @@ export default function checkRoleScreen() {
       <Stack.Screen name="Post Donate" component={PostDonate} />
       <Stack.Screen name="News Donate" component={NewsDonate} />
       <Stack.Screen name="DeepDetail" component={DeepDetail} />
+
+      <Stack.Screen name="MainPhoneAuth" component={MainPhoneAuth} />
 
 
       </Stack.Navigator>

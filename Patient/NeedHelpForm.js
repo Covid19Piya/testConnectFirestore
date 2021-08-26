@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { useContext, Component } from 'react';
+import { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { FilledButton } from '../components/FilledButton';
-import { AuthContext } from '../navigaiton/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
-import { Input, ListItem } from 'react-native-elements';
+import { Input} from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 
-class addData extends Component {
+
+class Data extends Component {
   constructor(props) {
     super(props);
 
@@ -16,11 +15,10 @@ class addData extends Component {
       Name: '',
       Age: '',
       Help: '',
-      PhoneNumber: '',
+      PhoneNumber1: '',
       Address: '',
       Status: '',
     };
-    this.onPressButton = this.onPressButton.bind(this);
   }
 
   inputValueUpdate = (val, prop) => {
@@ -30,13 +28,12 @@ class addData extends Component {
   };
 
   storeUser() {
-
       this.case
-      .add({
+      .set({
         Name: this.state.Name,
         Age: this.state.Age,
         Help: this.state.Help,
-        PhoneNumber: this.state.PhoneNumber,
+        PhoneNumber1: this.state.PhoneNumber1,
         Address: this.state.Address,
         Status: "waiting",
         Request: '',
@@ -47,7 +44,7 @@ class addData extends Component {
           Name: '',
           Age: '',
           Help: '',
-          PhoneNumber: '',
+          PhoneNumber1: '',
           Address: '',
           Status: 'waiting',
           Request: '',
@@ -61,13 +58,49 @@ class addData extends Component {
         });
       });
 
+      this.case2
+      .add({
+        Name: this.state.Name,
+        Age: this.state.Age,
+        Help: this.state.Help,
+        PhoneNumber1: this.state.PhoneNumber1,
+        Address: this.state.Address,
+        Status: "waiting",
+        Request: '',
+        Confirm: 'No'
+      })
+      .then((res) => {
+        this.setState({
+          Name: '',
+          Age: '',
+          Help: '',
+          PhoneNumber1: '',
+          Address: '',
+          Status: 'waiting',
+          Request: '',
+          Confirm: 'No'
+        });
+      })
+      .catch((err) => {
+        console.log('Error found: ', err);
+        this.setState({
+          isLoading: false,
+        });
+      });
+
+     
     }
 
 
   render() {
-    const { user } = this.props.route.params
 
-    this.case = firestore().collection('Patient').doc(this.state.Name).collection("Case");
+    const { user } = this.props.route.params;
+    this.state.PhoneNumber1 = user.phoneNumber
+    console.log(this.state.PhoneNumber1)
+    
+    this.case = firestore().collection('Patient').doc(this.state.PhoneNumber1);
+    this.case2 = firestore().collection('Patient').doc(this.state.PhoneNumber1).collection("Case");
+
 
 
     return (
@@ -94,13 +127,6 @@ class addData extends Component {
             value={this.state.Help}
             onChangeText={(val) => this.inputValueUpdate(val, 'Help')}
           />
-          <Input
-            placeholder="หมายเลขโทรศัพท์"
-            leftIcon={{ type: 'font-awesome', name: 'caret-right' }}
-            style={styles}
-            value={this.state.PhoneNumber}
-            onChangeText={(val) => this.inputValueUpdate(val, 'PhoneNumber')}
-          />
 
           <Input
             placeholder="ที่อยู่ของคุณ"
@@ -115,7 +141,6 @@ class addData extends Component {
           <TouchableOpacity style={styles.loginButton} onPress={() => {
             this.props.navigation.navigate('Menu');
             this.storeUser()
-
           }}>
             <Text style={styles.loginButtonText}>
               ยืนยัน
@@ -124,10 +149,6 @@ class addData extends Component {
         </View>
       </ScrollView>
     );
-  }
-  onPressButton() {
-    const { navigate } = this.props.navigation;
-    navigate('HomeTeacher');
   }
 }
 
@@ -168,4 +189,4 @@ const styles = StyleSheet.create({
     paddingBottom: 127.5,
   },
 });
-export default addData;
+export default Data;

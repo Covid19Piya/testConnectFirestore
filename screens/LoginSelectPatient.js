@@ -30,7 +30,7 @@ export default function loginScreen({ navigation }) {
                 </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('LoginSelectPatient')}>
+            <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('PhoneAuth')}>
                 <Text style={styles.loginButtonText}>
                     เบอร์โทร
                 </Text>

@@ -28,7 +28,6 @@ let arrayDictStudents = [];
 let urlUser = '';
 let fileType = '';
 let fileName = '';
-let nameHw = '';
 class Hw extends React.Component {
   static contextType = AuthContext;
 
@@ -40,28 +39,7 @@ class Hw extends React.Component {
     };
   }
 
-  //]]////////////////////////////////////use for read data/////////////////////////
-  componentDidMount() {
-    this.unsubscribe = this.fireStoreData.onSnapshot(this.getCollection);
-  }
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-  getCollection = (querySnapshot) => {
-    const userArr = [];
-    querySnapshot.forEach((res) => {
-      const {name, question} = res.data();
-      userArr.push({
-        key: res.id,
-        res,
-        name,
-        question,
-      });
-    });
-    this.setState({
-      userArr,
-    });
-  };
+
   ////////////////////////////////////////////////////////////////////////////////////
 
   //////////////////// Upload file ///////////////////////////////////////////////////
@@ -100,8 +78,8 @@ class Hw extends React.Component {
     }
 
     async function uploadFileToFirebaseStorage(result, file) {
-      const name = 'allFiles/subject_code/' + nameHw + '/' + file.name;
-      console.log(nameHw);
+      const name = 'allFiles/subject_Math/'+ file.name;
+      console.log(file.name);
 
       const uploadTask = firebaseStorage()
         .ref(name)
@@ -162,7 +140,7 @@ class Hw extends React.Component {
               <>
                 <Text style={styles.nameAndfile}>
                   <Text style={styles.title}>Name: </Text>
-                  {eachStudent.name}{' '}
+                  {eachStudent.name}
                 </Text>
                 <Text style={styles.nameAndfile}>
                   <Text style={styles.title}>Question: </Text>
@@ -196,6 +174,7 @@ class Hw extends React.Component {
                       isLoading: false,
                     });
                   });
+                this.props.navigation.navigate('Home Student');
               }}>
               <Text style={styles.textButton}>Done</Text>
             </TouchableOpacity>
@@ -206,35 +185,7 @@ class Hw extends React.Component {
   };
 
   render() {
-    
-    //แก้ไม่ให้ขึ้นข้อสอบซ้ำ
-    if (arrayDictStudents.length != 0) {
-      arrayDictStudents = [];
-    }
 
-    // get col name form firestore //
-    nameHw = "ee";
-    // put data
-    this.usersCollectionRef = firestore()
-      .collection('subject_Code')
-      .doc(nameHw)
-      .collection('ans');
-    //show data
-    this.fireStoreData = firestore()
-      .collection('subject_Code')
-      .doc(nameHw)
-      .collection('homeWorkDetail');
-    /////////////////////////////////
-
-    ////// loop data in local array /////
-    {
-      this.state.userArr.map((item, i) => {
-        arrayDictStudents.push({
-          name: item.name,
-          question: item.question,
-        });
-      });
-    }
     /////////////////////////////////////
     return (
       <ScrollView style={styles.bg}>
@@ -298,5 +249,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-//code
+//math
 export default Hw;

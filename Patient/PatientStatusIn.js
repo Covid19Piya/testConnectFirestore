@@ -15,7 +15,7 @@ class ShowData extends Component {
         }
     }
 
-    state = { user: '' }
+    state = { user: 'No' }
     updateUser = (user) => {
         this.setState({ user: user })
     }
@@ -117,8 +117,8 @@ class ShowData extends Component {
                     })
                 }
                 <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
-                    <Picker.Item label="อนุญาติ" value="Yes" />
                     <Picker.Item label="ไม่อนุญาติ" value="No" />
+                    <Picker.Item label="อนุญาติ" value="Yes" />
                 </Picker>
             </View>
         )

@@ -10,7 +10,9 @@ class ShowData extends Component {
     constructor() {
         super();
         this.state = {
-            userArr: []
+            userArr: [],
+            PhoneNumber1:'',
+            Name1:''
         }
 
     }
@@ -33,7 +35,7 @@ class ShowData extends Component {
     getCollection = (querySnapshot) => {
         const userArr = [];
         querySnapshot.forEach((res) => {
-            const { Name, Age, Help, Address, PhoneNumber, Status } = res.data();
+            const { Name, Age, Help, Address, PhoneNumber1, Status } = res.data();
             userArr.push({
                 key: res.id,
                 res,
@@ -41,7 +43,7 @@ class ShowData extends Component {
                 Age,
                 Help,
                 Address,
-                PhoneNumber,
+                PhoneNumber1,
                 Status
             })
         })
@@ -50,11 +52,13 @@ class ShowData extends Component {
         })
     }
 
-    updateData(name, status, user) {
+    updateData(phone, status, user, name) {
+
         firestore().collection("Volunteer").doc({ user }.user.email).collection("Case")
             .get().then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                    console.log("In fn" + name, status);
+                    console.log(doc.data().Name ," ",name)
+
                     if (doc.data().Name == name) {
                         doc.ref.update({
                             Status: status
@@ -62,12 +66,11 @@ class ShowData extends Component {
                     }
                 });
             });
-
-        firestore().collection('Patient').doc(name).collection("Case")
+        firestore().collection('Patient').doc(phone).collection("Case")
             .get().then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                    console.log("In fn" + name, status);
-                    if (doc.data().Name == name) {
+                    console.log(doc.data().PhoneNumber1," ",phone)
+                    if (doc.data().PhoneNumber1 == phone) {
                         doc.ref.update({
                             Status: status
                         });
@@ -85,27 +88,27 @@ class ShowData extends Component {
         return (
             <ScrollView>
                 <View>
-                   
                     {
                         this.state.userArr.map((item, i) => {
                             if (item.Name == text)
-                                return (
+                                {this.state.PhoneNumber1 =item.PhoneNumber1
+                                 this.state.Name1 =item.Name
+                                return (                                                                       
                                     <ListItem
                                         key={i}
                                         bottomDivider>
-
                                         <ListItem.Content>
                                         <Text> รายละเอียดผู้ป่วย </Text>
                                             <ListItem.Title>ชื่อ : {item.Name}  </ListItem.Title>
                                             <ListItem.Title>อายุ : {item.Age}</ListItem.Title>
                                             <ListItem.Title>ที่อยู่ : {item.Address}</ListItem.Title>
-                                            <ListItem.Title>หมายเลขโทรศัพท์ : {item.PhoneNumber}</ListItem.Title>
+                                            <ListItem.Title>หมายเลขโทรศัพท์ : {item.PhoneNumber1}</ListItem.Title>
                                             <ListItem.Title>ความช่วยเหลือที่ต้องการ : {item.Help}</ListItem.Title>
                                             <ListItem.Title>สถานะ : {item.Status}</ListItem.Title>
                                         </ListItem.Content>
                                     </ListItem>
                                 );
-                        })
+                        }})
                     }
                     <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
                         <Picker.Item label="รอ" value="Waiting" />
@@ -113,7 +116,7 @@ class ShowData extends Component {
                         <Picker.Item label="เสร็จสิ้น" value="Finish" />
                     </Picker>
                     <TouchableOpacity style={styles.loginButton} onPress={() => {
-                        this.updateData(text, this.state.user, user)
+                        this.updateData(this.state.PhoneNumber1, this.state.user, user, this.state.Name1)
                     }}>
                         <Text style={styles.loginButtonText}>
                             อัพเดทสถานะ

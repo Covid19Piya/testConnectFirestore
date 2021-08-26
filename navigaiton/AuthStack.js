@@ -13,12 +13,25 @@ import LoginEmail from '../LoginMethod/LoginEmail';
 import PatientRegister from '../RegisterMethod/PatientRegister';
 import VolunteerRegister from '../RegisterMethod/VolunteerRegister';
 
+import PhoneAuth from '../PhoneAuth/Main';
+
 
 const Stack = createStackNavigator();
 
 function AuthStack() {
   return (
     <Stack.Navigator initialRouteName="chooseRole">
+
+      <Stack.Screen
+        name="PhoneAuth"
+        component={PhoneAuth}
+        options={({ navigation }) => ({
+          title: '',
+          headerStyle: {
+            backgroundColor: '#f9fafd',
+          },
+        })}
+      />
       <Stack.Screen
         name="chooseRole"
         component={chooseRole}
@@ -33,7 +46,6 @@ function AuthStack() {
             backgroundColor: '#f9fafd',
           },
         })}
-
       />
       <Stack.Screen
         name="patientLoginOrRegis"

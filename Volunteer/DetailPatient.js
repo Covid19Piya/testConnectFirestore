@@ -32,7 +32,7 @@ class ShowData extends Component {
   getCollection = (querySnapshot) => {
     const userArr = [];
     querySnapshot.forEach((res) => {
-      const { Name, Help, Address, Age, PhoneNumber,Status, Request } = res.data();
+      const { Name, Help, Address, Age, PhoneNumber1,Status, Request } = res.data();
       userArr.push({
         key: res.id,
         res,
@@ -40,7 +40,7 @@ class ShowData extends Component {
         Age,
         Help,
         Address,
-        PhoneNumber,
+        PhoneNumber1,
         Status,
         Request
       })
@@ -71,7 +71,7 @@ class ShowData extends Component {
         Age: this.state.Age,
         Help: this.state.Help,
         Address: this.state.Address,
-        PhoneNumber: this.state.PhoneNumber,
+        PhoneNumber1: this.state.PhoneNumber1,
         Status: "waiting",
         Confirm: "No"
       })
@@ -81,7 +81,7 @@ class ShowData extends Component {
           Age: '',
           Help: '',
           Address: '',
-          PhoneNumber: '',
+          PhoneNumber1: '',
         });
       })
       .catch((err) => {
@@ -97,8 +97,8 @@ class ShowData extends Component {
     const { text, user } = this.props.route.params
     let checkDuplicateCase = false;
     let checkDuplicateCaseText = "ยืนยันช่วยเหลือ";
+    
     this.fireStoreData = firestore().collection("Patient").doc({ text }.text).collection("Case");
-
     this.storeData = firestore().collection("Volunteer").doc({ user }.user.email).collection("Case");
 
     return (
@@ -113,7 +113,7 @@ class ShowData extends Component {
               this.state.Age = item.Age
               this.state.Help = item.Help
               this.state.Address = item.Address
-              this.state.PhoneNumber = item.PhoneNumber
+              this.state.PhoneNumber1 = item.PhoneNumber1
 
               if(item.Request == { user }.user.email){
                 checkDuplicateCaseText = "คุณมีเคสนี้เเล้ว"
@@ -128,11 +128,12 @@ class ShowData extends Component {
                     <ListItem.Title>ชื่อ : {item.Name}</ListItem.Title>
                     <ListItem.Title>ความช่วยเหลือที่ต้องการ : {item.Help}</ListItem.Title>
                     <ListItem.Title>สถานะการช่วยเหลือ : {item.Status}</ListItem.Title>
+                    <ListItem.Title>เบอร์โทร : {item.PhoneNumber1}</ListItem.Title>
 
                     <TouchableOpacity disabled={checkDuplicateCase} style={styles.loginButton} onPress={() => {
                       this.props.navigation.navigate('Your Case', { text: { text }.text, user: user });
                       this.storeUser();
-                      this.sendRequest(item.Name, { user }.user.email);
+                      this.sendRequest(item.PhoneNumber1, { user }.user.email);
                     }
                     }>
                       <Text style={styles.loginButtonText}>

@@ -1,4 +1,4 @@
-package com.myfirstapp;
+package com.oneforall.oneforall;
 
 import android.os.Bundle;
 

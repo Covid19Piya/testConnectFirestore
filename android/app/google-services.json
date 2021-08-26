@@ -12,10 +12,52 @@
           "package_name": "com.myfirstapp"
         }
       },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxVsuCP_GSOtLxSfNLMvci1pYFDYj3Mpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620694520767:android:ea6c872f24d3d9ad6f970a",
+        "android_client_info": {
+          "package_name": "com.oneforall"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxVsuCP_GSOtLxSfNLMvci1pYFDYj3Mpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620694520767:android:f991249eeeae4d976f970a",
+        "android_client_info": {
+          "package_name": "com.oneforall.oneforall"
+        }
+      },
       "oauth_client": [
         {
-          "client_id": "620694520767-0qhc03cu00fqn3ihfuvd390m7cvfi4lp.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "620694520767-acravml6uq2c6dn3bj4ui35adoqks989.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oneforall.oneforall",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
         }
       ],
       "api_key": [
@@ -25,12 +67,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "620694520767-0qhc03cu00fqn3ihfuvd390m7cvfi4lp.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

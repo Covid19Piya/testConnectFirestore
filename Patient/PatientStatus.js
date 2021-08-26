@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, Component } from 'react'
-import { View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Picker, TouchableOpacity } from 'react-native';
 import { FilledButton } from '../components/FilledButton';
 import { AuthContext } from '../navigaiton/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
@@ -11,44 +11,127 @@ class ShowData extends Component {
         super();
 
         this.state = {
-            Name: '',
+            userArr: []
         }
     }
 
-    inputValueUpdate = (val, prop) => {
-        const state = this.state;
-        state[prop] = val;
-        this.setState(state);
-    };
+    state = { user: 'No' }
+    updateUser = (user) => {
+        this.setState({ user: user })
+    }
+
+    componentDidMount() {
+        this.unsubscribe = this.fireStoreData.onSnapshot(this.getCollection);
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+    getCollection = (querySnapshot) => {
+        const userArr = [];
+        querySnapshot.forEach((res) => {
+            const { Name, Help, Email, Confirm, Age, PhoneNumber, Address, Request, Status } = res.data();
+            userArr.push({
+                key: res.id,
+                res,
+                Name,
+                Help,
+                Email,
+                Confirm,
+                Age,
+                Address,
+                PhoneNumber,
+                Request,
+                Status
+            })
+        })
+        this.setState({
+            userArr
+        })
+    }
+
+    updateData(name, status, user) {
+        firestore().collection("Volunteer").doc(user).collection("Case")
+            .get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    console.log("In fn" + name, status, user);
+                    if (doc.data().Name == name) {
+                        doc.ref.update({
+                            Confirm: status
+                        });
+                    }
+                });
+            });
+
+        firestore().collection('Patient').doc(name).collection("Case")
+            .get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    console.log("In fn" + name, status);
+                    if (doc.data().Name == name) {
+                        doc.ref.update({
+                            Status: status,
+                            Confirm: status
+
+                        });
+                    }
+                });
+            });
+    }
 
     render() {
+        const { user } = this.props.route.params;
+        console.log({ user }.user.phoneNumber)
+
+        this.fireStoreData = firestore().collection("Patient").doc({ user }.user.phoneNumber).collection("Case");
         return (
             <View>
                 <Text> ผู้ป่วยที่ต้องการความช่วยเหลือ </Text>
-                <Input
-                    placeholder="กรุณาใส่ชื่อของคุณ "
-                    leftIcon={{ type: 'font-awesome', name: 'book' }}
-                    style={styles}
-                    value={this.state.Name}
-                    onChangeText={(val) => this.inputValueUpdate(val, 'Name')}
-                />
+                {
+                    this.state.userArr.map((item, i) => {
+                       
+                            return (
 
-                <TouchableOpacity style={styles.loginButton} onPress={() => {
-                    this.props.navigation.navigate('PatientStatusIn', { text: this.state.Name });
+                                <ListItem
+                                    key={i}
+                                    bottomDivider>
+                                    <ListItem.Content>
+                                        <ListItem.Title>ชื่อ : {item.Name}</ListItem.Title>
+                                        <ListItem.Title>อายุ : {item.Age}</ListItem.Title>
+                                        <ListItem.Title>ที่อยู่ : {item.Address}</ListItem.Title>
+                                        <ListItem.Title>เบอร์ติดต่อ : {item.PhoneNumber}</ListItem.Title>
+                                        <ListItem.Title>ความช่วยเหลือที่ต้องการ : {item.Help}</ListItem.Title>
+                                        <ListItem.Title>ผู้ติดต่อต้องการช่วยเหลือ : {item.Request}</ListItem.Title>
+                                        <ListItem.Title>สถานะเคส : {item.Status}</ListItem.Title>
+
+                                        <TouchableOpacity style={styles.loginButton} onPress={() => {
+                                            this.updateData(item.Name, this.state.user, item.Request)
+
+                                        }}>
+                                            <Text style={styles.loginButtonText}>
+                                                อัพเดทสถานะ
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </ListItem.Content>
+                                </ListItem>
+                            );
+                    })
                 }
-                }>
-                    <Text style={styles.loginButtonText}>
-                        ค้นหาเคสของฉัน
-                    </Text>
-                </TouchableOpacity>
+                <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
+                    <Picker.Item label="ไม่อนุญาติ" value="No" />
+                    <Picker.Item label="อนุญาติ" value="Yes" />
+                </Picker>
             </View>
         )
     }
+
 }
 
 
 const styles = StyleSheet.create({
-    
+    title: {
+        marginBottom: 20,
+        textAlign: 'center',
+    },
     input: {
         marginVertical: 10,
         marginBottom: 15,

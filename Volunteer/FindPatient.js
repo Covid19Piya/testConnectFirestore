@@ -5,6 +5,7 @@ import { FilledButton } from '../components/FilledButton';
 import { AuthContext } from '../navigaiton/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
 import { Input, ListItem } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class ShowData extends Component {
     constructor() {
@@ -26,14 +27,15 @@ class ShowData extends Component {
     getCollection = (querySnapshot) => {
         const userArr = [];
         querySnapshot.forEach((res) => {
-            const { Name, Help, Email, Confirm } = res.data();
+            const { Name, Help, Email, Confirm, PhoneNumber1 } = res.data();
             userArr.push({
                 key: res.id,
                 res,
                 Name,
                 Help,
                 Email,
-                Confirm
+                Confirm,
+                PhoneNumber1
             })
         })
         this.setState({
@@ -45,11 +47,13 @@ class ShowData extends Component {
         console.log({user})
    
         return (
+            <ScrollView>
+
             <View>
                 <Text> ผู้ป่วยที่ต้องการความช่วยเหลือ </Text>
                 {
                     this.state.userArr.map((item, i) => {
-                      
+                     
                         return (
                             
                             <ListItem
@@ -59,7 +63,8 @@ class ShowData extends Component {
                                     <ListItem.Title>ชื่อ : {item.Name}</ListItem.Title>
                                     <ListItem.Title>ความช่วยเหลือที่ต้องการ : {item.Help}</ListItem.Title>
                                     <TouchableOpacity style={styles.loginButton} onPress={() => {
-                                        this.props.navigation.navigate('DetailPatient', { text: item.Name , user: user});
+                                        this.props.navigation.navigate('DetailPatient', { text: item.PhoneNumber1 , user: user});
+                                        console.log(item.PhoneNumber1)
                                     }
                                     }>
                                         <Text style={styles.loginButtonText}>
@@ -72,6 +77,8 @@ class ShowData extends Component {
                     })
                 }
             </View>
+            </ScrollView>
+
         )
     }
 

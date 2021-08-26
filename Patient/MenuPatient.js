@@ -1,18 +1,14 @@
 import * as React from 'react';
-import {useContext, Component} from 'react';
-import {View, StyleSheet, Text, Alert, TouchableOpacity} from 'react-native';
-import {FilledButton} from '../components/FilledButton';
+import {useContext} from 'react';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {AuthContext} from '../navigaiton/AuthProvider';
-import firestore from '@react-native-firebase/firestore';
 
 export default function homeScreenStudent({navigation}) {
   const {user, logout} = useContext(AuthContext);
-
-
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}> Welcome Patient </Text>
-      <Text style={styles.head}>"{user.email}"</Text>
+      <Text style={styles.head}>"{user.phoneNumber}"</Text>
 
     
       <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('PatientForm', { user: user })}>
@@ -21,7 +17,7 @@ export default function homeScreenStudent({navigation}) {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('PatientStatus')}>
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('PatientStatus', { user: user })}>
         <Text style={styles.loginButtonText}>
         Your Case
         </Text>

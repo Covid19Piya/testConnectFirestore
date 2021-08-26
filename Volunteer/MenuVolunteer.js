@@ -7,7 +7,7 @@ import firestore from '@react-native-firebase/firestore';
 
 export default function homeScreen({ navigation }) {
   const { user, logout } = useContext(AuthContext);
-
+  console.log(user)
 
   return (
     <View style={styles.container}>
